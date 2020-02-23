@@ -109,10 +109,11 @@ public class PathfindingSearch {
 		int goalCol = 0;
 		int[][] map = null;
 		
-		
+		// FIXME!!
 		int[][] m = buildMatrix(5,8);
 		printMatrix(m);
 		
+		// FIXME!!
 		fileGenerator(0,0,5,5,m);
 		System.out.println("Success!");
 		
@@ -125,22 +126,26 @@ public class PathfindingSearch {
 			String[] singleValues = line.split(" ");
 			switch(count) {
 			case 0: 
+				// Stores map size
 				sizeRow =  Integer.parseInt(singleValues[0]);
 				sizeCol =  Integer.parseInt(singleValues[1]);
 				map = new int[sizeRow][sizeCol];
 				break;
 			case 1:
+				// Stores starting point
 				startingRow =  Integer.parseInt(singleValues[0]);
 				startingCol =  Integer.parseInt(singleValues[1]);
 				break;
 			case 2:
+				// Stores goal point
 				goalRow =  Integer.parseInt(singleValues[0]);
 				goalCol =  Integer.parseInt(singleValues[1]);
 				break;
 			default:
+				// Stores map from file
 				int index = count - 3;
 				
-				for(int i = 0; i < map.length; i++) {
+				for(int i = 0; i < map[index].length; i++) {
 					map[index][i] = Integer.parseInt(singleValues[i]);
 				}
 				
@@ -149,6 +154,8 @@ public class PathfindingSearch {
 			
 			count++;
 		}
+		
+		// FIXME!!
 		printMatrix(map);
 		System.out.print("Success!");
 	}
