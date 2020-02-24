@@ -127,8 +127,9 @@ public class PathfindingSearch {
 					for(int j = 0; j < map[i].length; j++) {
 						// Go through map columns
 						if (map[i][j] != 0 && index != ((i * map[i].length)+j)) {
+							System.out.println(initialize(i, j, map[i][j]));
 							t.next = initialize(i, j, map[i][j]);
-							t.next = t.next.next;
+							t = t.next;
 						}
 					}
 				}
@@ -155,7 +156,14 @@ public class PathfindingSearch {
 	 * @throws FileNotFoundException 
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
-		int sizeRow = 0;
+		Reader reader = new Reader("map1.txt");
+		System.out.println(reader.getStart().toString());
+		System.out.println(reader.getEnd().toString());
+		//Map map = new Map("map1.txt");
+		//map.printMatrix();
+		//Graph graph = new Graph(map.matrix);
+		//graph.printGraph();
+		/*int sizeRow = 0;
 		int sizeCol = 0;
 		int startingRow = 0;
 		int startingCol = 0;
@@ -216,9 +224,7 @@ public class PathfindingSearch {
 		Node[] graph = createGraph(map);
 		System.out.println("Success!");
 		
-		traceNodes(graph[0]);
-		System.out.println("Success!");
-
-
+		traceNodes(graph[1]);
+		System.out.println("Success!");*/
 	}
 }
