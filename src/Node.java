@@ -3,12 +3,12 @@ public class Node {
 	int x;	// Column
 	int y;	// Row
 	int cost;
-	int coordinate;
 	Node next;
 	
-	public Node(int row, int column) {
+	public Node(int row, int column, int cost) {
 		x = column;
 		y = row;
+		this.cost = cost;
 	}
 	
 	public boolean isGoal(int goalRow, int goalCol) {

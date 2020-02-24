@@ -94,6 +94,60 @@ public class PathfindingSearch {
 			}
 	}
 	
+	public static void initialize(Node[] g, int[][] map) {
+		for(int i = 0; i < map.length; i++) {
+			// Go through rows
+			for(int j = 0; j < map[0].length; j++) {
+				// Go through columns
+				int index = (i * map[i].length) + j;
+				if(map[i][j] == 0) {
+					g[index] = null;
+				} else {
+					g[index] = new Node(i, j, map[i][j]);
+				}
+			}
+		}
+	}
+	
+	public static Node initialize(int row, int column, int cost) {
+		return new Node(row, column, cost);
+	}
+	
+	public static Node[] createGraph(int[][] map) {
+		Node[] graph = new Node[map.length * map[0].length];
+		
+		initialize(graph, map);
+		
+		for(int index = 0; index < graph.length; index++) {
+		// Go through adjacency list
+			if(graph[index] != null) {
+				Node t = graph[index];
+				for(int i = 0; i < map.length; i++) {
+					// Go through map rows
+					for(int j = 0; j < map[i].length; j++) {
+						// Go through map columns
+						if (map[i][j] != 0 && index != ((i * map[i].length)+j)) {
+							t.next = initialize(i, j, map[i][j]);
+							t.next = t.next.next;
+						}
+					}
+				}
+			}
+		}
+		
+		return graph;
+	}
+	
+	public static void printNode(Node n) {
+		System.out.print(n.cost + " -> ");
+	}
+	
+	public static void traceNodes(Node g) {
+		for(Node t = g; t != null; t = t.next) {
+			printNode(t);
+		}
+	}
+	
 	/**
 	 * Main method receiving arguments as @args
 	 * 
@@ -157,6 +211,14 @@ public class PathfindingSearch {
 		
 		// FIXME!!
 		printMatrix(map);
-		System.out.print("Success!");
+		System.out.println("Success!");
+		
+		Node[] graph = createGraph(map);
+		System.out.println("Success!");
+		
+		traceNodes(graph[0]);
+		System.out.println("Success!");
+
+
 	}
 }
