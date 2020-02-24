@@ -2,15 +2,19 @@ public class Graph{
   Node[] graph;
 
   public Graph(int[][] matrix){
-    this.graph = new Node[matrix.length*matrix[0].length];
+    this.graph = new Node[matrix.length * matrix[0].length];
     for(int i=0; i<matrix.length; i++){
       for(int j=0; j<matrix[i].length; j++){
         if(matrix[i][j] !=0){
-          graph[(i*matrix[0].length) + j] = new Node(i, j, matrix[i][j]);
+          graph[(i*matrix[0].length) + j] = initialize(i, j, matrix[i][j]);
           checkAvailableMoves(i, j, matrix);
         }
       }
     }
+  }
+
+  private Node initialize(int row, int column, int cost) {
+    return new Node(row, column, cost);
   }
 
   private boolean isInRange(int x, int y, int[][] matrix){

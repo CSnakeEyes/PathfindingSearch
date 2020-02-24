@@ -6,7 +6,7 @@ public class Reader{
 
   private Point start;
   private Point end;
-  private int[][] matrix;
+  private int[][] map;
 
   public Reader(String filename) throws FileNotFoundException {
     File file =  new File(filename);
@@ -16,7 +16,7 @@ public class Reader{
     this.start = getValues();
     this.end = getValues();
 
-    this.matrix = buildMatrix(matrixDimensions.x, matrixDimensions.y);
+    this.map = buildMap(matrixDimensions.x, matrixDimensions.y);
 
     scan.close();
   }
@@ -30,13 +30,12 @@ public class Reader{
   }
 
   /**
-	 * Given he rows and columns of a matrix, it scan the values of a matrix
-   * of the given file 
+   * Creates a map of size @rows * @ cols out of the matrix of the given file 
    *
    * @param rows
-	 * @param cols
-	 */
-  private int[][] buildMatrix(int rows, int cols){
+   * @param cols
+   */
+  private int[][] buildMap(int rows, int cols){
     int[][] matrix = new int [rows][cols];
     for(int i=0; i<rows; i++){
       String line = scan.nextLine();
@@ -48,6 +47,23 @@ public class Reader{
     return matrix;
   }
 
+  /**
+   * Prints a given matrix on the console
+   */
+  public void printMatrix() {
+    for (int i = 0; i < this.map.length; i++) {
+      // Go through rows
+      for (int j = 0; j < this.map[i].length; j++) {
+        // Go through columns
+        if (j == this.map[i].length - 1) {
+          System.out.println(this.map[i][j]);
+        } else {
+          System.out.print(this.map[i][j] + " ");
+        }
+      }
+    }
+  }
+
   public Point getStart(){
     return this.start;
   }
@@ -56,7 +72,7 @@ public class Reader{
     return this.end;
   }
 
-  public int[][] getMatrix() {
-    return this.matrix;
+  public int[][] getMap() {
+    return this.map;
   }
 }
