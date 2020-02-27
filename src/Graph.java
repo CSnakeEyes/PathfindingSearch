@@ -6,15 +6,15 @@ public class Graph{
     for(int i=0; i<matrix.length; i++){
       for(int j=0; j<matrix[i].length; j++){
         if(matrix[i][j] !=0){
-          graph[(i*matrix[0].length) + j] = initialize(i, j, matrix[i][j]);
+          graph[(i*matrix[0].length) + j] = initialize(i, j, matrix[i][j], matrix[0].length);
           checkAvailableMoves(i, j, matrix);
         }
       }
     }
   }
 
-  private Node initialize(int row, int column, int cost) {
-    return new Node(row, column, cost);
+  private Node initialize(int row, int column, int cost, int mapIndex) {
+    return new Node(row, column, cost, mapIndex);
   }
 
   private boolean isInRange(int x, int y, int[][] matrix){
@@ -30,8 +30,8 @@ public class Graph{
       for(int j=0; j<4; j++){
         tempX = (j<2) ? tempX + operation : tempX;
         tempY = (j>=2) ? tempY + operation : tempY;
-        if(isInRange(tempX, tempY, matrix) && matrix[tempX][tempY] != 0){
-          temp.next = new Node(tempX, tempY, matrix[tempX][tempY]);
+        if(isInRange(tempX, tempY, matrix) && matrix[tempX][tempY]!=0 && j%2==0){
+          temp.next = new Node(tempX, tempY, matrix[tempX][tempY], matrix[0].length);
           temp = temp.next;
         }
       }
