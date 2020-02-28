@@ -1,3 +1,12 @@
+/**
+ * @author Miguel Zamudio & Cristian Ayub
+ * 
+ * Class: CS 4320/5314 
+ * Instructor: Dr. Christopher Kiekintveld
+ * Assignment: HW3: Search and Pathfinding 
+ * Date of last modification: 02/28/2020
+ */
+
 import java.io.*;
 import java.util.Scanner;
 
@@ -63,6 +72,8 @@ public class Reader{
       }
     }
   }
+
+  /** Getters **/
 
   public Point getStart(){
     return this.start;

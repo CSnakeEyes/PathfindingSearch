@@ -1,3 +1,13 @@
+
+/**
+ * @author Miguel Zamudio & Cristian Ayub
+ * 
+ * Class: CS 4320/5314
+ * Instructor: Dr. Christopher Kiekintveld
+ * Assignment: HW3: Search and Pathfinding
+ * Date of last modification: 02/28/2020
+ */
+
 import java.io.*;
 
 public class FileGenerator {
@@ -39,7 +49,7 @@ public class FileGenerator {
      * @param map
      */
     public void generate(int startingRow, int startingCol, int goalRow, int goalCol) {
-        File file = new File("map1.txt");
+        File file = new File("map3.txt");
         FileWriter fr = null;
         try {
             fr = new FileWriter(file);

@@ -1,6 +1,16 @@
+/**
+ * @author Miguel Zamudio & Cristian Ayub
+ * 
+ * Class: CS 4320/5314 
+ * Instructor: Dr. Christopher Kiekintveld
+ * Assignment: HW3: Search and Pathfinding 
+ * Date of last modification: 02/28/2020
+ */
+
 public class Graph{
   Node[] graph;
 
+  /** Constructor **/
   public Graph(int[][] matrix){
     this.graph = new Node[matrix.length * matrix[0].length];
     for(int i=0; i<matrix.length; i++){
@@ -13,14 +23,39 @@ public class Graph{
     }
   }
 
+  /**
+   * Initializes a given node
+   * 
+   * Fills such node with the following data: 
+   * 
+   * @param row
+   * @param column
+   * @param cost
+   * @param mapIndex
+   * @return         // Reference to such node
+   */
   private Node initialize(int row, int column, int cost, int mapIndex) {
     return new Node(row, column, cost, mapIndex);
   }
 
+  /**
+   * 
+   * @param x
+   * @param y
+   * @param matrix
+   * @return
+   */
   private boolean isInRange(int x, int y, int[][] matrix){
     return (x>=0 && x<matrix.length && y>=0 && y<matrix[0].length);
   }
 
+  /**
+   * Creates nodes for adjacent connections in map (NEWS) given coordinates @x, @y, and @matrix
+   * 
+   * @param x
+   * @param y
+   * @param matrix
+   */
   private void checkAvailableMoves(int x, int y, int[][] matrix){
     Node temp = this.graph[(x*matrix[0].length) + y];
     int tempX = x-1;
@@ -38,6 +73,9 @@ public class Graph{
     }
   }
 
+  /**
+   * Prints graph
+   */
   public void printGraph(){
     for(int i=0; i<this.graph.length; i++){
       Node temp = this.graph[i];
