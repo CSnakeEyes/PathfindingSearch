@@ -18,7 +18,7 @@ public class Main {
 	 * @throws FileNotFoundException
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
-		Reader reader = new Reader("../" + args[0]);
+		Reader reader = new Reader(args[0]);
 		// Uncomment below to generate new files
 		// FileGenerator fg = new FileGenerator(20, 32);
 		// fg.generate(0, 0, 5, 5);
@@ -28,7 +28,7 @@ public class Main {
 
 		int[][] map = reader.getMap();
 		int startIndex = (map[0].length * reader.getStart().x) + reader.getStart().y;
-		int goalIndex = (map[0].length * reader.getStart().x) + reader.getEnd().y;
+		int goalIndex = (map[0].length * reader.getEnd().x) + reader.getEnd().y;
 
 		long startTime = 0;
 		long endTime = 0;
@@ -49,14 +49,11 @@ public class Main {
 				pfs.aStar(graph.graph[startIndex], graph.graph, graph.graph[goalIndex]);
 				endTime = System.nanoTime();
 				break;
+			default:
+				System.out.println("Not a valid method argument. Try IDS/BFS/AS");
+				return;
 		}
 
-		// long startTime = System.nanoTime();
-		// boolean IDS = pfs.IDS(graph.graph, graph.graph[startIndex], reader.getEnd());
-		// boolean aStar = pfs.aStar(graph.graph[startIndex], graph.graph, graph.graph[goalIndex]);
-		// boolean BFS = pfs.BFS(graph.graph, graph.graph[startIndex], graph.graph[goalIndex]);
-		// graph.graph[goalIndex]);
-		// long endTime = System.nanoTime();
 		double totalTime = (endTime - startTime) / 1e6;
 
 		System.out.println();

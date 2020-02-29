@@ -25,6 +25,16 @@ public class PathfindingSearch {
         this.expandedNodes = 0;
     }
 
+    /**
+     * Executes Breadth-First Search given a @graph, a @start node, and a @goal node
+     * 
+     * Returns whether the goal can be reached through the given starting point
+     * 
+     * @param graph
+     * @param start
+     * @param goal
+     * @return
+     */
     public boolean BFS(Node[] graph, Node start, Node goal) {
         long startTime = System.currentTimeMillis(); 
         long endTime = startTime + 180000;              // Checks for time of algorithm
