@@ -17,9 +17,10 @@ public class PathfindingSearch {
     int expandedNodes;
     boolean[] visited;
     PriorityQueue<Node> openNodes;
+    boolean goalFound = false;
 
     /** Constructor **/
-    public PathfindingSearch(){
+    public PathfindingSearch() {
         this.totalCost = 0;
         this.expandedNodes = 0;
     }
@@ -44,6 +45,7 @@ public class PathfindingSearch {
                 if (!this.visited[actualPos] && !inGoal) {
                     if (actualPos == goal.mapIndex) {
                         inGoal = true;
+                        goalFound = true;
                         return true;
                     }
                     this.visited[actualPos] = true;
@@ -71,21 +73,23 @@ public class PathfindingSearch {
     public Node getSuccessor(Node start, Node goal, Node[] graph) {
         Node successor = start.next;
 
-        if(successor == null || visited[successor.mapIndex]) {
+        if (successor == null || visited[successor.mapIndex]) {
             return successor;
         }
 
-        for(Node t = successor; t != null; t = t.next) {
-            t.g = t.cost + totalCost;                           // Total cost so far to reach this node
-            t.h = manhattanDistance(t, goal);                   // Heuristic distance
-            t.f = t.g + t.h;                                    // Predicting value
+        for (Node t = successor; t != null; t = t.next) {
+            t.g = t.cost + totalCost; // Total cost so far to reach this node
+            t.h = manhattanDistance(t, goal); // Heuristic distance
+            t.f = t.g + t.h; // Predicting value
         }
 
         for (Node t = successor; t != null; t = t.next) {
             boolean isOpen = openNodes.contains(t);
-            if(!isOpen && successor.f > t.f) {
+
+            if (!isOpen && successor.f > t.f) {
                 successor = t;
-                if(!visited[t.mapIndex]){
+                System.out.println(successor.toString());
+                if (!visited[t.mapIndex]) {
                     openNodes.add(graph[successor.mapIndex]);
                     totalCost += successor.cost;
                 }
@@ -96,8 +100,8 @@ public class PathfindingSearch {
     }
 
     /**
-     * Executes A* algorithm given a @start node, a @graph, and a @goal node
-     * and returns whether the goal has been reached from the starting point
+     * Executes A* algorithm given a @start node, a @graph, and a @goal node and
+     * returns whether the goal has been reached from the starting point
      * 
      * @param start
      * @param graph
@@ -115,42 +119,39 @@ public class PathfindingSearch {
 
         Node current;
 
-        while(!openNodes.isEmpty()) {
+        while (!openNodes.isEmpty()) {
             current = openNodes.poll();
 
-            if(current == null)
-                return false;
-
-            visited[current.mapIndex] = true;
-
-            if(isGoal(current.coordinates, goal.coordinates))
-                return true;
-
-            Node t = getSuccessor(graph[current.mapIndex], goal, graph);
-            // openNodes.add(graph[t.mapIndex]);
-            System.out.print(t.coordinates.toString());
+            if (!visited[current.mapIndex]) {
+                visited[current.mapIndex] = true;
+                if (isGoal(current.coordinates, goal.coordinates)) {
+                    return true;
+                }
+                Node t = getSuccessor(graph[current.mapIndex], goal, graph);
+                openNodes.add(graph[t.mapIndex]);
+            }
         }
         return false;
     }
 
     // public boolean recursiveAStar(Node start, Node[] graph, Node goal) {
-    //     if (isGoal(start.coordinates, goal.coordinates)) {
-    //         System.out.print(start.coordinates.toString() + "<-");
-    //         totalCost += start.cost;
-    //         return true;
-    //     } else {
-    //         visited[start.mapIndex] = true;
-    //         if (start.next != null) {
-    //             expandedNodes++;
-    //             Node successor = getSuccessor(start, goal);
-    //             if (aStar(graph[successor.mapIndex], graph, goal)) {
-    //                 System.out.print(start.coordinates.toString() + "<-");
-    //                 totalCost += start.cost;
-    //                 return true;
-    //             }
-    //         }
-    //         return false;
-    //     }
+    // if (isGoal(start.coordinates, goal.coordinates)) {
+    // System.out.print(start.coordinates.toString() + "<-");
+    // totalCost += start.cost;
+    // return true;
+    // } else {
+    // visited[start.mapIndex] = true;
+    // if (start.next != null) {
+    // expandedNodes++;
+    // Node successor = getSuccessor(start, goal);
+    // if (aStar(graph[successor.mapIndex], graph, goal)) {
+    // System.out.print(start.coordinates.toString() + "<-");
+    // totalCost += start.cost;
+    // return true;
+    // }
+    // }
+    // return false;
+    // }
     // }
 
     /**
@@ -166,8 +167,8 @@ public class PathfindingSearch {
     }
 
     /**
-     * Triggers Iterative Deepening Search method given @graph, @start node, @goal point
-     * and returns whether the goal is reeacheable from starting point
+     * Triggers Iterative Deepening Search method given @graph, @start node, @goal
+     * point and returns whether the goal is reeacheable from starting point
      * 
      * @param graph
      * @param start
@@ -179,10 +180,12 @@ public class PathfindingSearch {
         int limit = 50;
 
         System.out.print("Sequence: ");
-        for(int i = 0; i < limit; i++){
+        for (int i = 0; i < limit; i++) {
             initialize(visited);
-            if(DLS(start, graph, goal, limit))
+            if (DLS(start, graph, goal, limit)) {
+                goalFound = true;
                 return true;
+            }
         }
         System.out.println("null");
         return false;
@@ -195,7 +198,7 @@ public class PathfindingSearch {
      * @param start
      * @param graph
      * @param goal
-     * @param limit         // Establishes how deep will the search go within the graph
+     * @param limit // Establishes how deep will the search go within the graph
      * @return
      */
 
@@ -216,18 +219,19 @@ public class PathfindingSearch {
     public boolean recursiveDLS(Node node, Node[] graph, Point goal, int limit) {
         visited[node.mapIndex] = true;
 
-        if(isGoal(node.coordinates, goal)){
+        if (isGoal(node.coordinates, goal)) {
             // System.out.println(node.cost); // FIXME!!
             System.out.print(node.coordinates.toString() + "<-");
             totalCost += node.cost;
             return true;
-        } else if (limit <= 0) return false;
+        } else if (limit <= 0)
+            return false;
         else {
             expandedNodes++;
-            for(Node t = node.next; t != null; t = t.next) {
-                if(!visited[t.mapIndex]) {
+            for (Node t = node.next; t != null; t = t.next) {
+                if (!visited[t.mapIndex]) {
                     if (recursiveDLS(graph[t.mapIndex], graph, goal, limit - 1)) {
-                        System.out.print(node.coordinates.toString()+ "<-");
+                        System.out.print(node.coordinates.toString() + "<-");
                         totalCost += node.cost;
                         return true;
                     }
@@ -253,10 +257,10 @@ public class PathfindingSearch {
      * 
      * @return
      */
-    public int totalVisited(){
+    public int totalVisited() {
         int sum = 0;
-        for(int i = 0; i < visited.length; i++) {
-            if(visited[i])
+        for (int i = 0; i < visited.length; i++) {
+            if (visited[i])
                 sum++;
         }
         return sum;
@@ -277,8 +281,13 @@ public class PathfindingSearch {
      * Prints algorithms statistics
      */
     public void printStats() {
-        System.out.println("Total cost to goal: " + totalCost);
-        System.out.println("Total expanded nodes: " + expandedNodes);
+        if (!goalFound) {
+            System.out.println("Total cost to goal: " + -1);
+            System.out.println("Total expanded nodes: " + null);
+        } else {
+            System.out.println("Total cost to goal: " + totalCost);
+            System.out.println("Total expanded nodes: " + expandedNodes);
+        }
         System.out.println("Total nodes in memory: " + totalVisited());
     }
 }
