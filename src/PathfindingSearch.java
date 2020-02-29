@@ -26,6 +26,9 @@ public class PathfindingSearch {
     }
 
     public boolean BFS(Node[] graph, Node start, Node goal) {
+        long startTime = System.currentTimeMillis(); 
+        long endTime = startTime + 180000;              // Checks for time of algorithm
+
         Queue<Node> queue = new LinkedList<>();
         visited = new boolean[graph.length];
         boolean inGoal = false;
@@ -38,6 +41,11 @@ public class PathfindingSearch {
         System.out.print(startNode.coordinates.toString() + "->");
 
         while (!queue.isEmpty()) {
+            if (System.currentTimeMillis() > endTime) {
+                System.out.println("3 minutes exceeded!");
+                return false;
+            }
+
             Node queueNode = queue.remove();
             Node actualNode = graph[queueNode.mapIndex];
             while (actualNode != null && !inGoal) {
@@ -109,6 +117,9 @@ public class PathfindingSearch {
      * @return
      */
     public boolean aStar(Node start, Node[] graph, Node goal) {
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime + 180000;              // Checks for time of algorithm
+
         visited = new boolean[graph.length];
         openNodes = new PriorityQueue<Node>((Node a, Node b) -> {
             return a.cost < b.cost ? -1 : a.cost > b.cost ? 1 : 0;
@@ -120,6 +131,11 @@ public class PathfindingSearch {
         Node current;
 
         while (!openNodes.isEmpty()) {
+            if (System.currentTimeMillis() > endTime) {
+                System.out.println("3 minutes exceeded!");
+                return false;
+            }
+
             current = openNodes.poll();
 
             if (!visited[current.mapIndex]) {
@@ -133,26 +149,6 @@ public class PathfindingSearch {
         }
         return false;
     }
-
-    // public boolean recursiveAStar(Node start, Node[] graph, Node goal) {
-    // if (isGoal(start.coordinates, goal.coordinates)) {
-    // System.out.print(start.coordinates.toString() + "<-");
-    // totalCost += start.cost;
-    // return true;
-    // } else {
-    // visited[start.mapIndex] = true;
-    // if (start.next != null) {
-    // expandedNodes++;
-    // Node successor = getSuccessor(start, goal);
-    // if (aStar(graph[successor.mapIndex], graph, goal)) {
-    // System.out.print(start.coordinates.toString() + "<-");
-    // totalCost += start.cost;
-    // return true;
-    // }
-    // }
-    // return false;
-    // }
-    // }
 
     /**
      * Computes the manhattan-distance between node A and B. |x1 - x2| + |y1 - y2|
@@ -176,11 +172,18 @@ public class PathfindingSearch {
      * @return
      */
     public boolean IDS(Node[] graph, Node start, Point goal) {
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime + 180000;              // Checks for time of algorithm
+
         visited = new boolean[graph.length];
         int limit = 50;
 
         System.out.print("Sequence: ");
         for (int i = 0; i < limit; i++) {
+            if (System.currentTimeMillis() > endTime) {
+                System.out.println("3 minutes exceeded!");
+                return false;
+            }
             initialize(visited);
             if (DLS(start, graph, goal, limit)) {
                 goalFound = true;
@@ -220,7 +223,6 @@ public class PathfindingSearch {
         visited[node.mapIndex] = true;
 
         if (isGoal(node.coordinates, goal)) {
-            // System.out.println(node.cost); // FIXME!!
             System.out.print(node.coordinates.toString() + "<-");
             totalCost += node.cost;
             return true;
